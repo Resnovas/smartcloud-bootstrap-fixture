@@ -1,0 +1,23 @@
+name: Acceptance bootstrap
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Resnovas/smartcloud-bootstrap@v0.1
+        id: bootstrap
+        with:
+          repo_name: smartcloud-bootstrap-fixture
+          description: Acceptance fixture for Smartcloud v0.1 bootstrap Action
+          license: MIT
+          language: node
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          dry_run: "false"
+          target_path: .
+      - name: Print PR URL
+        run: echo "PR=${{ steps.bootstrap.outputs.pull_request_url }}"
